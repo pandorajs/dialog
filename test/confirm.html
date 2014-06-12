@@ -43,7 +43,6 @@
         var trigger = $('<div id="trigger"/>').appendTo('#qunit-fixture');
         dialog = new Confirm({
           content: 'trigger',
-          effect: 'none',
           trigger: '#trigger'
         });
         ok( dialog.is(':hidden'), '' );
@@ -74,20 +73,21 @@
         equal( typeof dialog.destroy, 'function', '' );
       });
 
-      test('cancel', function() {
+      asyncTest('cancel', function() {
         dialog = new Confirm({
-          content: 'cancel',
-          effect: 'none'
+          content: 'cancel'
         });
         dialog.role('cancel').trigger('click');
-        equal( typeof dialog.uniqueId, 'undefined', '' );
-        equal( typeof dialog.destroy, 'function', '' );
+        setTimeout(function () {
+          equal( typeof dialog.uniqueId, 'undefined', '' );
+          equal( typeof dialog.destroy, 'function', '' );
+          start();
+        }, 1000);
       });
 
       test('submit/cancel/returnFalse', function() {
         dialog = new Confirm({
           content: 'submit/cancel/returnFalse',
-          effect: 'none',
           events: {
             submit: function () {
               return false;

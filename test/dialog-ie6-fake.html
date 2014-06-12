@@ -50,7 +50,6 @@
         var trigger = $('<div id="trigger"/>').appendTo('#qunit-fixture');
         dialog = new Dialog({
           content: 'trigger',
-          effect: 'none',
           trigger: '#trigger'
         });
         ok( dialog.is(':hidden'), '' );
@@ -60,10 +59,9 @@
         trigger.remove();
       });
 
-      test('mask', function() {
+      asyncTest('mask', function() {
         dialog = new Dialog({
           content: 'mask',
-          effect: 'none',
           mask: true
         });
         equal( dialog.$().css('position'), 'absolute', '' );
@@ -71,9 +69,12 @@
         equal( typeof dialog.mask, 'object', '' );
         ok( dialog.mask.is(':visible'), '' );
         dialog.hide();
-        ok( dialog.mask.is(':hidden'), '' );
-        dialog.destroy();
-        equal( typeof dialog.mask, 'undefined', '' );
+        setTimeout(function () {
+          ok( dialog.mask.is(':hidden'), '' );
+          dialog.destroy();
+          equal( typeof dialog.mask, 'undefined', '' );
+          start();
+        }, 1000);
       });
 
       test('text', function() {
@@ -93,16 +94,18 @@
         dialog.destroy();
       });
 
-      test('keydown/escape', function() {
+      asyncTest('keydown/escape', function() {
         dialog = new Dialog({
-          content: 'keydown/escape',
-          effect: 'none'
+          content: 'keydown/escape'
         });
         var keydown = $.Event('keydown');
         keydown.which = keydown.keyCode = 27;
         dialog.$().trigger(keydown);
-        ok( dialog.is(':hidden'), '' );
-        dialog.destroy();
+        setTimeout(function () {
+          ok( dialog.is(':hidden'), '' );
+          dialog.destroy();
+          start();
+        }, 1000);
       });
 
       test('focus', function() {
@@ -120,32 +123,35 @@
         dialog.destroy();
       });
 
-      test('hide/show', function() {
+      asyncTest('hide/show', function() {
         var dialog = new Dialog({
-          content: 'hide/show',
-          effect: 'none'
+          content: 'hide/show'
         });
         dialog.hide();
-        ok( dialog.is(':hidden'), '' );
-        dialog.show();
-        ok( dialog.is(':visible'), '' );
-        dialog.destroy();
+        setTimeout(function () {
+          ok( dialog.is(':hidden'), '' );
+          dialog.show();
+          ok( dialog.is(':visible'), '' );
+          dialog.destroy();
+          start();
+        }, 1000);
       });
 
-      test('close', function() {
+      asyncTest('close', function() {
         var dialog = new Dialog({
-          content: 'close',
-          effect: 'none'
+          content: 'close'
         });
         dialog.role('close').trigger('click');
-        ok( dialog.element.is(':hidden'), '' );
-        dialog.destroy();
+        setTimeout(function () {
+          ok( dialog.element.is(':hidden'), '' );
+          dialog.destroy();
+          start();
+        }, 1000);
       });
 
       test('close/returnFalse', function() {
         var dialog = new Dialog({
           content: 'close/returnFalse',
-          effect: 'none',
           events: {
             'close': function () { return false; }
           }
@@ -157,8 +163,7 @@
 
       test('destroy', function() {
         var dialog = new Dialog({
-          content: 'destroy',
-          effect: 'none'
+          content: 'destroy'
         });
         dialog.destroy();
         equal( typeof dialog.uniqueId, 'undefined', '' );

@@ -41,16 +41,14 @@
 
       test('timeout', function() {
         dialog = new Tips({
-          content: 'timeout',
-          effect: 'none'
+          content: 'timeout'
         });
         ok( dialog.is(':visible'), '' );
       });
 
       asyncTest('timeout/1', function() {
         dialog = new Tips({
-          content: 'timeout',
-          effect: 'none'
+          content: 'timeout'
         });
         setTimeout(function () {
           ok( dialog.is(':visible'), '' );
@@ -60,8 +58,7 @@
 
       asyncTest('timeout/2', function() {
         dialog = new Tips({
-          content: 'timeout',
-          effect: 'none'
+          content: 'timeout'
         });
         setTimeout(function () {
           equal( typeof dialog.uniqueId, 'undefined', '' );
@@ -72,7 +69,6 @@
       asyncTest('timeout/3', function() {
         dialog = new Tips({
           content: 'timeout',
-          effect: 'none',
           timeout: 3
         });
         setTimeout(function () {

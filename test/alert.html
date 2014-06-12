@@ -43,7 +43,6 @@
         var trigger = $('<div id="trigger"/>').appendTo('#qunit-fixture');
         dialog = new Alert({
           content: 'trigger',
-          effect: 'none',
           trigger: '#trigger'
         });
         ok( dialog.is(':hidden'), '' );
@@ -53,31 +52,34 @@
         trigger.remove();
       });
 
-      test('mask', function() {
+      asyncTest('mask', function() {
         dialog = new Alert({
-          content: 'mask',
-          effect: 'none'
+          content: 'mask'
         });
         equal( typeof dialog.mask, 'object', '' );
         ok( dialog.mask.is(':visible'), '' );
         dialog.hide();
-        equal( typeof dialog.mask, 'undefined', '' );
+        setTimeout(function () {
+          equal( typeof dialog.mask, 'undefined', '' );
+          start();
+        }, 1000);
       });
 
-      test('submit', function() {
+      asyncTest('submit', function() {
         dialog = new Alert({
-          content: 'submit',
-          effect: 'none'
+          content: 'submit'
         });
         dialog.role('submit').trigger('click');
-        equal( typeof dialog.uniqueId, 'undefined', '' );
-        equal( typeof dialog.destroy, 'function', '' );
+        setTimeout(function () {
+          equal( typeof dialog.uniqueId, 'undefined', '' );
+          equal( typeof dialog.destroy, 'function', '' );
+          start();
+        }, 1000);
       });
 
       test('submit/returnFalse', function() {
         dialog = new Alert({
-          content: 'submit',
-          effect: 'none'
+          content: 'submit'
         });
         dialog.on('submit', function () {
           return false;

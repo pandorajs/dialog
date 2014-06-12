@@ -129,26 +129,26 @@ var Dialog = Overlay.extend({
    *
    * @method show
    */
-  show: function () {
-    this.mask && this.mask.show();
+  // show: function () {
+  //   this.mask && this.mask.show();
 
-    Dialog.superclass.show.apply(this);
+  //   Dialog.superclass.show.apply(this);
 
-    return this;
-  },
+  //   return this;
+  // },
 
   /**
    * 隐藏对话框
    *
    * @method hide
    */
-  hide: function () {
-    this.mask && this.mask.hide();
+  // hide: function () {
+  //   this.mask && this.mask.hide();
 
-    Dialog.superclass.hide.apply(this);
+  //   Dialog.superclass.hide.apply(this);
 
-    return this;
-  },
+  //   return this;
+  // },
 
   render: function () {
     var self = this;
@@ -171,6 +171,15 @@ var Dialog = Overlay.extend({
         effect: self.option('effect'),
         insert: function () {
           this.container.before(this.element);
+        }
+      });
+
+      self.initEvents({
+        show: function () {
+          self.mask && self.mask.show();
+        },
+        hide: function () {
+          self.mask && self.mask.hide();
         }
       });
     }

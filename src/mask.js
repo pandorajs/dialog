@@ -41,12 +41,7 @@ var Mask = Overlay.extend({
       self.setPosition = setPosition;
     } else {
       if (self.option('css/position') === 'absolute') {
-        self.baseElement = $(self.document);
         self.setPosition = setPosition;
-
-        $(self.viewport).on('resize.' + self.uniqueId, function () {
-          self.setPosition();
-        });
       }
     }
 
@@ -65,7 +60,7 @@ var Mask = Overlay.extend({
   },
 
   destroy: function () {
-    $(this.viewport).off('resize.' + this.uniqueId);
+    $(this.viewport).off('resize' + this.delegateNS);
 
     Mask.superclass.destroy.apply(this);
   }
@@ -76,6 +71,10 @@ var Mask = Overlay.extend({
 function setPosition () {
   var self = this;
 
+  if (!self.baseElement) {
+    self.baseElement = $(self.document);
+  }
+
   self.element
     .css({
       width: 0,
@@ -85,6 +84,13 @@ function setPosition () {
       width: self.baseElement.outerWidth(),
       height: self.baseElement.outerHeight()
     });
+
+  if (self.option('css/position') === 'absolute' && !self.resizeBinded) {
+    $(self.viewport).on('resize' + self.delegateNS, function () {
+      self.setPosition();
+    });
+    self.resizeBinded = true;
+  }
 
   Mask.superclass.setPosition.apply(self);
 }

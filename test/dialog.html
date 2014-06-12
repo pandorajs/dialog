@@ -38,13 +38,13 @@
 
       QUnit.start();
 
-      var dialog;
+      var keydown = $.Event('keydown');
+      keydown.which = keydown.keyCode = 27;
 
       test('trigger', function() {
         var trigger = $('<div id="trigger"/>').appendTo('#qunit-fixture');
-        dialog = new Dialog({
+        var dialog = new Dialog({
           content: 'trigger',
-          effect: 'none',
           trigger: '#trigger'
         });
         ok( dialog.is(':hidden'), '' );
@@ -54,35 +54,40 @@
         trigger.remove();
       });
 
-      test('mask', function() {
-        var baseElement = $('<div id="trigger"/>').appendTo('#qunit-fixture');
-        dialog = new Dialog({
+      asyncTest('mask', function() {
+        var baseElement = $('<div id="trigger"/>')
+          .css({
+            width: 200,
+            height: 200
+          }).appendTo('#qunit-fixture');
+        var dialog = new Dialog({
           baseElement: trigger,
           content: 'mask',
-          effect: 'none',
           mask: true
         });
         equal( typeof dialog.mask, 'object', '' );
         ok( dialog.mask.is(':visible'), '' );
         dialog.hide();
-        ok( dialog.mask.is(':hidden'), '' );
-        dialog.show();
-        var keydown = $.Event('keydown');
-        keydown.which = keydown.keyCode = 27;
-        dialog.mask.$().trigger(keydown);
-        ok( dialog.mask.is(':hidden'), '' );
-        dialog.destroy();
-        equal( typeof dialog.mask, 'undefined', '' );
-        baseElement.remove();
+        setTimeout(function () {
+          ok( dialog.mask.is(':hidden'), '' );
+          dialog.show();
+          dialog.mask.$().trigger(keydown);
+          setTimeout(function () {
+            ok( dialog.mask.is(':hidden'), '' );
+            dialog.destroy();
+            equal( typeof dialog.mask, 'undefined', '' );
+            baseElement.remove();
+            start();
+          }, 1000);
+        }, 1000);
       });
 
       test('mask/resize', function() {
-        dialog = new Dialog({
+        var dialog = new Dialog({
           css: {
             position: 'absolute'
           },
           content: 'mask/resize',
-          effect: 'none',
           mask: true
         });
         $(window).triggerHandler('resize');
@@ -91,7 +96,7 @@
       });
 
       test('text', function() {
-        dialog = new Dialog({
+        var dialog = new Dialog({
           content: 'text'
         });
         equal( dialog.role('content').text(), 'text', '' );
@@ -99,7 +104,7 @@
       });
 
       test('html', function() {
-        dialog = new Dialog({
+        var dialog = new Dialog({
           content: '<i>html</i>'
         });
         equal( dialog.role('content').text(), 'html', '' );
@@ -108,12 +113,10 @@
       });
 
       test('keydown/escape', function() {
-        dialog = new Dialog({
+        var dialog = new Dialog({
           content: 'keydown/escape',
           effect: 'none'
         });
-        var keydown = $.Event('keydown');
-        keydown.which = keydown.keyCode = 27;
         dialog.$().trigger(keydown);
         ok( dialog.is(':hidden'), '' );
         dialog.destroy();
@@ -123,7 +126,7 @@
         var dialog1 = new Dialog({
           content: 'focus'
         });
-        dialog = new Dialog({
+        var dialog = new Dialog({
           content: 'focus'
         });
         dialog1.$().trigger('mousedown');
@@ -152,7 +155,7 @@
           effect: 'none'
         });
         dialog.role('close').trigger('click');
-        ok( dialog.element.is(':hidden'), '' );
+        ok( dialog.is(':hidden'), '' );
         dialog.destroy();
       });
 
@@ -171,8 +174,7 @@
 
       test('destroy', function() {
         var dialog = new Dialog({
-          content: 'destroy',
-          effect: 'none'
+          content: 'destroy'
         });
         dialog.destroy();
         equal( typeof dialog.uniqueId, 'undefined', '' );

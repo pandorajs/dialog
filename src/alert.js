@@ -36,13 +36,15 @@ var Alert = Dialog.extend({
       }
     });
 
-    Alert.superclass.setup.apply(self);
-  },
+    if (!self.option('trigger')) {
+      self.initEvents({
+        hide: function (e) {
+          this.destroy();
+        }
+      });
+    }
 
-  hide: function () {
-    Alert.superclass.hide.apply(this);
-    // TODO: 目前直接调用 destroy，将导致直接跳过隐藏动画
-    !this.option('trigger') && this.destroy();
+    Alert.superclass.setup.apply(self);
   }
 
 });
