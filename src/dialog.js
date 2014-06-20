@@ -8,12 +8,14 @@ define(function (require, exports, module) {
 'use strict';
 
 var Overlay = require('overlay'),
+  Locker = require('locker');
 
-  // 遮罩层
-  Mask = require('./mask');
+// 遮罩层
+var Mask = require('./mask');
 
 // 当前位于顶层的 dialog
-var dialogInTop;
+var dialogLocker = new Locker(),
+  dialogInTop;
 
 /**
  * Dialog
@@ -25,8 +27,7 @@ var Dialog = Overlay.extend({
 
   defaults: {
     baseXY: {
-      x: 0.5,
-      y: 0.5
+      x: 0.5
     },
     // 样式前缀
     classPrefix: 'ue-dialog',
@@ -47,9 +48,11 @@ var Dialog = Overlay.extend({
     },
     // 是否模拟为模态对话框，即显示遮罩层
     mask: false,
+    offset: {
+      y: 70
+    },
     selfXY: {
-      x: 0.5,
-      y: 0.5
+      x: 0.5
     },
     // 对话框模板
     template: require('./dialog.handlebars'),
@@ -81,8 +84,14 @@ var Dialog = Overlay.extend({
    */
   setIndex: function (index) {
     this.element.css({
-      zIndex: index || this.option('css/zIndex')
+      zIndex: +this.option('css/zIndex') + (index || 0)
     });
+
+    if (index) {
+      this.element.addClass('focused');
+    } else {
+      this.element.removeClass('focused');
+    }
 
     return this;
   },
@@ -104,11 +113,11 @@ var Dialog = Overlay.extend({
    * @method focus
    */
   focus: function () {
-    dialogInTop && dialogInTop.setIndex();
+    if (dialogInTop) {
+      dialogInTop.setIndex();
+    }
 
-    dialogInTop = this.setIndex(this.option('css/zIndex') + 1);
-
-    this.element.focus();
+    dialogInTop = this.setIndex(1);
 
     return this;
   },
@@ -153,6 +162,8 @@ var Dialog = Overlay.extend({
   render: function () {
     var self = this;
 
+    dialogLocker.set(self.uniqueId, self);
+
     Dialog.superclass.render.apply(self);
 
     // 遮罩层
@@ -166,6 +177,21 @@ var Dialog = Overlay.extend({
         delegates: {
           'keydown': function (e) {
             (e.keyCode === 27) && self.hide();
+          },
+          'click': function (e) {
+            self.stop()
+              .animate({
+                left: '-=10'
+              }, 40)
+              .animate({
+                left: '+=20'
+              }, 80)
+              .animate({
+                left: '-=20'
+              }, 80)
+              .animate({
+                left: '+=10'
+              }, 40);
           }
         },
         effect: self.option('effect'),
@@ -184,6 +210,8 @@ var Dialog = Overlay.extend({
       });
     }
 
+    self.focus();
+
     return self;
   },
 
@@ -193,10 +221,22 @@ var Dialog = Overlay.extend({
    * @method destroy
    */
   destroy: function () {
+    var nextDialog;
+
     // 先销毁遮罩层
     this.mask && this.mask.destroy();
 
-    dialogInTop === this && (dialogInTop = null);
+    dialogLocker.remove(this.uniqueId);
+
+    if (dialogInTop === this) {
+      dialogInTop = null;
+      if (dialogLocker.length()) {
+        nextDialog = dialogLocker.last();
+        if (nextDialog) {
+          nextDialog.focus();
+        }
+      }
+    }
 
     Dialog.superclass.destroy.apply(this);
   }
