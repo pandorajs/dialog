@@ -45,6 +45,14 @@ var Alert = Dialog.extend({
     }
 
     Alert.superclass.setup.apply(self);
+  },
+
+  submit: function (callback) {
+    if (callback) {
+      return this.on('submit', callback);
+    } else {
+      return this.fire('submit');
+    }
   }
 
 });

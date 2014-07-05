@@ -50,6 +50,22 @@ var Confirm = Dialog.extend({
     }
 
     Confirm.superclass.setup.apply(self);
+  },
+
+  submit: function (callback) {
+    if (callback) {
+      return this.on('submit', callback);
+    } else {
+      return this.fire('submit');
+    }
+  },
+
+  cancel: function (callback) {
+    if (callback) {
+      return this.on('cancel', callback);
+    } else {
+      return this.fire('cancel');
+    }
   }
 
 });

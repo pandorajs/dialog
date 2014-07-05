@@ -123,41 +123,18 @@ var Dialog = Overlay.extend({
   },
 
   /**
-   * 点击关闭按钮
+   * 点击关闭按钮，或绑定关闭事件回调
    *
+   * @param {Function} [callback] 事件回调函数
    * @method close
    */
-  close: function () {
-    this.fire('close') !== false && this.hide();
-
-    return this;
+  close: function (callback) {
+    if (callback) {
+      return this.on('close', callback);
+    } else {
+      return this.fire('close') !== false && this.hide();
+    }
   },
-
-  /**
-   * 显示对话框
-   *
-   * @method show
-   */
-  // show: function () {
-  //   this.mask && this.mask.show();
-
-  //   Dialog.superclass.show.apply(this);
-
-  //   return this;
-  // },
-
-  /**
-   * 隐藏对话框
-   *
-   * @method hide
-   */
-  // hide: function () {
-  //   this.mask && this.mask.hide();
-
-  //   Dialog.superclass.hide.apply(this);
-
-  //   return this;
-  // },
 
   render: function () {
     var self = this;
@@ -171,9 +148,6 @@ var Dialog = Overlay.extend({
       self.mask = new Mask({
         baseElement: self.option('baseElement'),
         container: self.element,
-        // css: {
-        //   position: self.option('css/position')
-        // },
         delegates: {
           'keydown': function (e) {
             (e.keyCode === 27) && self.hide();
@@ -216,11 +190,16 @@ var Dialog = Overlay.extend({
   },
 
   /**
-   * 销毁
+   * 销毁，或绑定销毁事件回调
    *
+   * @param {Function} [callback] 事件回调函数
    * @method destroy
    */
-  destroy: function () {
+  destroy: function (callback) {
+    if (callback) {
+      return this.on('destroy', callback);
+    }
+
     var nextDialog;
 
     // 先销毁遮罩层
@@ -242,13 +221,6 @@ var Dialog = Overlay.extend({
   }
 
 });
-
-// Dialog.STATE = {
-//   INITIAL: -1,
-//   READY: 0,
-//   VISIBLE: 1,
-//   HIDDEN: 2
-// };
 
 module.exports = Dialog;
 
