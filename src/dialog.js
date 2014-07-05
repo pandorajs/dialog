@@ -44,7 +44,9 @@ var Dialog = Overlay.extend({
         (e.keyCode === 27) && this.hide();
       },
       'mousedown': 'focus',
-      'click [data-role=close]': 'close'
+      'click [data-role=close]': function () {
+        this.close();
+      }
     },
     // 是否模拟为模态对话框，即显示遮罩层
     mask: false,
