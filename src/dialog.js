@@ -17,6 +17,26 @@ var Mask = require('./mask');
 var dialogLocker = new Locker(),
   dialogInTop;
 
+function handleDialogInTop (dialog, remove) {
+  var nextDialog;
+
+  // 先移除
+  dialogLocker.remove(dialog.uniqueId);
+
+  if (dialogInTop === dialog) {
+    dialogInTop = null;
+    if (dialogLocker.length()) {
+      nextDialog = dialogLocker.last();
+      nextDialog && nextDialog.focus && nextDialog.focus();
+    }
+  }
+
+  // 再添加
+  if (!remove) {
+    dialogLocker.set(dialog.uniqueId, dialog);
+  }
+}
+
 /**
  * Dialog
  *
@@ -73,6 +93,10 @@ var Dialog = Overlay.extend({
 
     title && self.data({
       title: title
+    });
+
+    self.on('hide', function () {
+      handleDialogInTop(this, false);
     });
 
     Dialog.superclass.setup.apply(self);
@@ -202,22 +226,10 @@ var Dialog = Overlay.extend({
       return this.on('destroy', callback);
     }
 
-    var nextDialog;
-
     // 先销毁遮罩层
     this.mask && this.mask.destroy();
 
-    dialogLocker.remove(this.uniqueId);
-
-    if (dialogInTop === this) {
-      dialogInTop = null;
-      if (dialogLocker.length()) {
-        nextDialog = dialogLocker.last();
-        if (nextDialog) {
-          nextDialog.focus();
-        }
-      }
-    }
+    handleDialogInTop(this, true);
 
     Dialog.superclass.destroy.apply(this);
   }
