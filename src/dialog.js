@@ -8,14 +8,14 @@ define(function (require, exports, module) {
 'use strict';
 
 var Overlay = require('overlay'),
-  Locker = require('locker');
+    Locker = require('locker');
 
 // 遮罩层
 var Mask = require('./mask');
 
 // 当前位于顶层的 dialog
 var dialogLocker = new Locker(),
-  dialogInTop;
+    dialogInTop;
 
 function handleDialogInTop (dialog, remove) {
   var nextDialog;
@@ -95,10 +95,6 @@ var Dialog = Overlay.extend({
       title: title
     });
 
-    self.on('hide', function () {
-      handleDialogInTop(this, false);
-    });
-
     Dialog.superclass.setup.apply(self);
   },
 
@@ -158,7 +154,10 @@ var Dialog = Overlay.extend({
     if (callback) {
       return this.on('close', callback);
     } else {
-      return this.fire('close') !== false && this.hide();
+      if (this.fire('close') !== false) {
+        this.hide();
+        handleDialogInTop(this, false);
+      }
     }
   },
 

@@ -20,6 +20,7 @@ var $ = require('$'),
 var Mask = Overlay.extend({
 
   defaults: {
+    autoShow: false,
     // classPrefix: 'ue-mask',
     css: {
       position: (!!window.ActiveXObject && !window.XMLHttpRequest) ? 'absolute' : 'fixed',
