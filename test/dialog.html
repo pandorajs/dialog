@@ -67,18 +67,20 @@
           mask: true
         });
         equal( typeof dialog.mask, 'object', '' );
-        ok( dialog.mask.is(':visible'), '' );
-        dialog.hide();
         setTimeout(function () {
-          ok( dialog.mask.is(':hidden'), '' );
-          dialog.show();
-          dialog.mask.$().trigger(keydown);
+          ok( dialog.mask.is(':visible'), '' );
+          dialog.hide();
           setTimeout(function () {
             ok( dialog.mask.is(':hidden'), '' );
-            dialog.destroy();
-            equal( typeof dialog.mask, 'undefined', '' );
-            baseElement.remove();
-            start();
+            dialog.show();
+            dialog.mask.$().trigger(keydown);
+            setTimeout(function () {
+              ok( dialog.mask.is(':hidden'), '' );
+              dialog.destroy();
+              equal( typeof dialog.mask, 'undefined', '' );
+              baseElement.remove();
+              start();
+            }, 1000);
           }, 1000);
         }, 1000);
       });

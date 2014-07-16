@@ -33,19 +33,17 @@ var Confirm = Dialog.extend({
     self.initDelegates({
       'click [data-role=submit]': function (e) {
         e.preventDefault();
-        this.fire('submit') && this.hide();
+        (this.fire('submit') !== false) && this.close();
       },
       'click [data-role=cancel]': function (e) {
         e.preventDefault();
-        this.fire('cancel') && this.hide();
+        (this.fire('cancel') !== false) && this.close();
       }
     });
 
     if (!self.option('trigger')) {
-      self.initEvents({
-        hide: function (e) {
-          this.destroy();
-        }
+      self.hide(function () {
+        this.destroy();
       });
     }
 

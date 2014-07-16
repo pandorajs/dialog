@@ -68,13 +68,15 @@
         equal( dialog.$().css('position'), 'absolute', '' );
         equal( dialog.mask.$().css('position'), 'absolute', '' );
         equal( typeof dialog.mask, 'object', '' );
-        ok( dialog.mask.is(':visible'), '' );
-        dialog.hide();
         setTimeout(function () {
-          ok( dialog.mask.is(':hidden'), '' );
-          dialog.destroy();
-          equal( typeof dialog.mask, 'undefined', '' );
-          start();
+          ok( dialog.mask.is(':visible'), '' );
+          dialog.hide();
+          setTimeout(function () {
+            ok( dialog.mask.is(':hidden'), '' );
+            dialog.destroy();
+            equal( typeof dialog.mask, 'undefined', '' );
+            start();
+          }, 1000);
         }, 1000);
       });
 

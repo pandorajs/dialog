@@ -28,10 +28,16 @@ var Tips = Dialog.extend({
   render: function () {
     var self = this;
 
+    if (!self.option('trigger')) {
+      self.hide(function () {
+        this.destroy();
+      });
+    }
+
     Tips.superclass.render.apply(self);
 
     setTimeout(function () {
-      self.destroy();
+      self.close();
     }, self.option('timeout') * 1000);
 
   }

@@ -33,7 +33,7 @@ function handleDialogInTop (dialog, remove) {
 
   // 再添加
   if (!remove) {
-    dialogLocker.set(dialog.uniqueId, dialog);
+    dialogLocker.set(dialog.uniqueId, dialog, 0);
   }
 }
 
@@ -84,8 +84,8 @@ var Dialog = Overlay.extend({
 
   setup: function () {
     var self = this,
-      title = self.option('title'),
-      content = self.option('content');
+        title = self.option('title'),
+        content = self.option('content');
 
     content && self.data({
       content: content
@@ -161,16 +161,19 @@ var Dialog = Overlay.extend({
     }
   },
 
-  render: function () {
+  /**
+   * 初始化遮罩信息
+   *
+   * @method initMask
+   * @private
+   */
+  initMask: function () {
     var self = this;
-
-    dialogLocker.set(self.uniqueId, self);
-
-    Dialog.superclass.render.apply(self);
 
     // 遮罩层
     if (self.option('mask') && !self.mask) {
       self.mask = new Mask({
+        autoShow: self.option('effect') === 'none',
         baseElement: self.option('baseElement'),
         container: self.element,
         delegates: {
@@ -199,15 +202,22 @@ var Dialog = Overlay.extend({
         }
       });
 
-      self.initEvents({
-        show: function () {
-          self.mask && self.mask.show();
-        },
-        hide: function () {
-          self.mask && self.mask.hide();
-        }
-      });
+      self.show(function () {
+          this.mask && this.mask.show();
+        }).hide(function () {
+          this.mask && this.mask.hide();
+        });
     }
+  },
+
+  render: function () {
+    var self = this;
+
+    dialogLocker.set(self.uniqueId, self);
+
+    Dialog.superclass.render.apply(self);
+
+    self.initMask();
 
     self.focus();
 

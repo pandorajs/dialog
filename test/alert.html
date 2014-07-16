@@ -58,11 +58,13 @@
           content: 'mask'
         });
         equal( typeof dialog.mask, 'object', '' );
-        ok( dialog.mask.is(':visible'), '' );
-        dialog.hide();
         setTimeout(function () {
-          equal( typeof dialog.mask, 'undefined', '' );
-          start();
+          ok( dialog.mask.is(':visible'), '' );
+          dialog.hide();
+          setTimeout(function () {
+            equal( typeof dialog.mask, 'undefined', '' );
+            start();
+          }, 1000);
         }, 1000);
       });
 
