@@ -17,7 +17,7 @@ var Mask = require('./mask');
 var dialogLocker = new Locker(),
     dialogInTop;
 
-function handleDialogInTop (dialog, remove) {
+function handleDialogInTop (dialog, destroy) {
   var nextDialog;
 
   // 先移除
@@ -32,7 +32,7 @@ function handleDialogInTop (dialog, remove) {
   }
 
   // 再添加
-  if (!remove) {
+  if (!destroy) {
     dialogLocker.set(dialog.uniqueId, dialog, 0);
   }
 }
@@ -63,7 +63,9 @@ var Dialog = Overlay.extend({
       'keydown': function (e) {
         (e.keyCode === 27) && this.hide();
       },
-      'mousedown': 'focus',
+      'mousedown': function () {
+        this.focus(true);
+      },
       'click [data-role=close]': function () {
         this.close();
       }
@@ -102,7 +104,8 @@ var Dialog = Overlay.extend({
    * 设置zIndex
    *
    * @method setIndex
-   * @param {Number} [index] zIndex
+   * @param {Number} [index] 增加值
+   * @private
    */
   setIndex: function (index) {
     this.element.css({
@@ -134,12 +137,19 @@ var Dialog = Overlay.extend({
    *
    * @method focus
    */
-  focus: function () {
+  focus: function (fromMousedown) {
+    var autofocus;
+
     if (dialogInTop) {
       dialogInTop.setIndex();
     }
 
     dialogInTop = this.setIndex(1);
+
+    if (!fromMousedown) {
+      autofocus = this.$('[autofocus]');
+      autofocus.length ? autofocus.focus() : this.element.focus();
+    }
 
     return this;
   },
