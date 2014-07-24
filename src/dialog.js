@@ -61,7 +61,7 @@ var Dialog = Overlay.extend({
     // 事件代理
     delegates: {
       'keydown': function (e) {
-        (e.keyCode === 27) && this.hide();
+        (e.keyCode === 27) && this.close();
       },
       'mousedown': function () {
         this.focus(true);
@@ -188,7 +188,7 @@ var Dialog = Overlay.extend({
         container: self.element,
         delegates: {
           'keydown': function (e) {
-            (e.keyCode === 27) && self.hide();
+            (e.keyCode === 27) && self.close();
           },
           'click': function (e) {
             self.stop()
