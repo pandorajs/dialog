@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
 
 /**
- * 对话框
+ * 警告
  *
  * @module Dialog
  */
@@ -11,7 +11,9 @@ define(function (require, exports, module) {
 var Dialog = require('./dialog');
 
 /**
- * Alert
+ * Alert 
+ * 警告
+ * 
  * @class Alert
  * @extends Dialog
  * @constructor
@@ -19,9 +21,30 @@ var Dialog = require('./dialog');
 var Alert = Dialog.extend({
 
   defaults: {
+    /**
+     * 是否显示遮罩层
+     *
+     * @attribute mask
+     * @default true
+     * @type {Boolean}
+     */
     mask: true,
     data: {
+      /**
+       * 自定义操作按钮
+       *
+       * @attribute data.submit
+       * @default <span class="btn btn-primary">确定</span>
+       * @type {String}
+       */
       submit: '<span class="btn btn-primary">确定</span>',
+      /**
+       * 标题
+       *
+       * @attribute data.title
+       * @default 提示
+       * @type {String}
+       */
       title: '提示'
     }
   },
@@ -45,10 +68,22 @@ var Alert = Dialog.extend({
     Alert.superclass.setup.apply(self);
   },
 
+  /**
+   * 确定或绑定确定事件回调
+   *
+   * @param {Function} [callback] 事件回调函数
+   * @method submit
+   */
   submit: function (callback) {
     if (callback) {
       return this.on('submit', callback);
     } else {
+      /**
+       * 确定事件
+       *
+       * @event submit
+       * @param {object} e Event.
+       */
       return this.fire('submit');
     }
   }

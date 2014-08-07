@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
 
 /**
- * 对话框
+ * 遮罩层
  *
  * @module Dialog
  */
@@ -12,14 +12,23 @@ var $ = require('$'),
   Overlay = require('overlay');
 
 /**
+ * Mask 
  * 遮罩层
- *
+ * 
  * @class Mask
+ * @extends Overlay
  * @constructor
  */
 var Mask = Overlay.extend({
 
   defaults: {
+    /**
+     * 实例化后是否自动显示
+     * 
+     * @attribute autoShow
+     * @default false
+     * @type {Boolean}
+     */
     autoShow: false,
     // classPrefix: 'ue-mask',
     css: {
@@ -69,6 +78,11 @@ var Mask = Overlay.extend({
 });
 
 /* jshint validthis:true */
+/**
+ * 更新遮罩浮层位置
+ *
+ * @method setPosition
+ */
 function setPosition () {
   var self = this;
 

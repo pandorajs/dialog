@@ -1,7 +1,7 @@
 define(function (require, exports, module) {
 
 /**
- * 对话框
+ * 提示层
  *
  * @module Dialog
  */
@@ -11,7 +11,9 @@ define(function (require, exports, module) {
 var Dialog = require('./dialog');
 
 /**
- * Tips
+ * Tips 
+ * 提示层
+ * 
  * @class Tips
  * @extends Dialog
  * @constructor
@@ -19,6 +21,13 @@ var Dialog = require('./dialog');
 var Tips = Dialog.extend({
 
   defaults: {
+    /**
+     * 提示层自动关闭时间，单位秒
+     * 
+     * @attribute timeout
+     * @default 2 
+     * @type {Number}
+     */
     timeout: 2,
     data: {
       close: ''

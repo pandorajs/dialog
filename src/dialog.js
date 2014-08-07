@@ -39,8 +39,10 @@ function handleDialogInTop (dialog, destroy) {
 
 /**
  * Dialog
+ * 对话框
  *
  * @class Dialog
+ * @extends Overlay
  * @constructor
  */
 var Dialog = Overlay.extend({
@@ -49,7 +51,13 @@ var Dialog = Overlay.extend({
     baseXY: {
       x: 0.5
     },
-    // 样式前缀
+    /**
+     * 样式前缀
+     *
+     * @attribute classPrefix
+     * @default ue-dialog
+     * @type {String}
+     */
     classPrefix: 'ue-dialog',
     css: {
       position: (!!window.ActiveXObject && !window.XMLHttpRequest) ? 'absolute' : 'fixed'
@@ -70,8 +78,23 @@ var Dialog = Overlay.extend({
         this.close();
       }
     },
-    // 是否模拟为模态对话框，即显示遮罩层
+
+    /**
+     * 是否模拟为模态对话框，即显示遮罩层
+     *
+     * @attribute mask
+     * @default false
+     * @type {Boolean}
+     */
     mask: false,
+    
+    /**
+     * 位置偏移，单位为像素
+     *
+     * @attribute offset
+     * @default {x:0,y:70}
+     * @type Object
+     */
     offset: {
       y: 70
     },
@@ -106,6 +129,7 @@ var Dialog = Overlay.extend({
    * @method setIndex
    * @param {Number} [index] 增加值
    * @private
+   * @chainable
    */
   setIndex: function (index) {
     this.element.css({
@@ -136,6 +160,8 @@ var Dialog = Overlay.extend({
    * 设置焦点
    *
    * @method focus
+   * @param {Boolean} [fromMousedown] 是否通过鼠标获取焦点
+   * @chainable
    */
   focus: function (fromMousedown) {
     var autofocus;
@@ -164,6 +190,12 @@ var Dialog = Overlay.extend({
     if (callback) {
       return this.on('close', callback);
     } else {
+      /**
+       * 通知关闭事件
+       *
+       * @event close
+       * @param {object} e Event.
+       */
       if (this.fire('close') !== false) {
         this.hide();
         handleDialogInTop(this, false);
