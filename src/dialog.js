@@ -13,6 +13,10 @@ var Overlay = require('overlay'),
 // 遮罩层
 var Mask = require('./mask');
 
+// 样式表
+var importStyle = require('./dialog.css'),
+  styleImported;
+
 // 当前位于顶层的 dialog
 var dialogLocker = new Locker(),
     dialogInTop;
@@ -87,7 +91,7 @@ var Dialog = Overlay.extend({
      * @type {Boolean}
      */
     mask: false,
-    
+
     /**
      * 位置偏移，单位为像素
      *
@@ -104,7 +108,8 @@ var Dialog = Overlay.extend({
     // 对话框模板
     template: require('./dialog.handlebars'),
     // 对话框触发点
-    trigger: null
+    trigger: null,
+    importStyle: false
   },
 
   setup: function () {
@@ -119,6 +124,11 @@ var Dialog = Overlay.extend({
     title && self.data({
       title: title
     });
+
+    if (this.option('importStyle') && !styleImported) {
+      importStyle();
+      styleImported = true;
+    }
 
     Dialog.superclass.setup.apply(self);
   },

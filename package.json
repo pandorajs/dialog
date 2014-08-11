@@ -48,6 +48,7 @@
     "alias": {
       "$": "$",
       "handlebars": "gallery/handlebars/1.3.0/handlebars-runtime",
+      "importstyle": "pandora/importstyle/1.0.0/importstyle",
       "overlay": "pandora/overlay/1.0.0/overlay",
       "locker": "pandora/locker/1.0.0/locker"
     }
