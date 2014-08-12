@@ -42,7 +42,7 @@ var Confirm = Dialog.extend({
       /**
        * 自定义确认操作按钮
        *
-       * @attribute data.cancel
+       * @attribute data.submit
        * @default <span class="btn btn-primary">确定</span>
        * @type {String}
        */
