@@ -163,6 +163,10 @@ var Dialog = Overlay.extend({
   setPosition: function () {
     this.mask && this.mask.setPosition();
 
+    if (!this.option('baseElement')) {
+      this.option('baseElement', this.viewport);
+    }
+
     Dialog.superclass.setPosition.apply(this);
   },
 

@@ -13,9 +13,6 @@ module.exports = function(grunt) {
   // load all grunt tasks
   require('matchdep').filterDev('grunt-*').forEach(grunt.loadNpmTasks);
 
-  var transport = require('grunt-cmd-transport');
-  var style = transport.style.init(grunt);
-
   grunt.initConfig({
 
     pkg: grunt.file.readJSON('package.json'),
@@ -119,7 +116,7 @@ module.exports = function(grunt) {
         idleading: '<%= idleading %>',
         alias: '<%= pkg.spm.alias %>'
       },
-      all: {
+      src: {
         files: [{
           expand: true,
           cwd: 'src/',
