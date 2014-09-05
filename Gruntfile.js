@@ -135,7 +135,7 @@ module.exports = function(grunt) {
         files: [{
           expand: true,
           cwd: '.build/',
-          src: ['dialog*.js', '!-debug*.js'],
+          src: ['dialog*.js'],
           dest: 'dist/'
         }]
       },
