@@ -4,13 +4,16 @@
   left: 0;
   top: 0;
   min-width: 320px;
-  outline: none;
   background: #fff;
   border-top: 5px solid #333;
   border-radius: 3px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   // transition: all 0.1s ease;
   -webkit-filter: grayscale(0.8) blur(2px);
+
+  &:focus {
+    outline: none;
+  }
 
   &.focused {
     -webkit-filter: none;
@@ -28,20 +31,27 @@
     text-shadow: 0 1px 0 #fff;
     cursor: pointer;
     text-decoration: none;
+
     &:hover {
       color: rgba(0, 0, 0, 0.5);
       text-decoration: none;
       cursor: pointer;
     }
   }
+
   .dialog-head {
     cursor: default;
     min-height: 16.428571429px;
+    border-bottom: 1px solid #e5e5e5;
+  }
+
+  .dialog-title {
+    cursor: default;
+    margin: 0;
     padding: 15px 46px 15px 15px;
     font-size: 18px;
     font-weight: 500;
     line-height: 21px;
-    border-bottom: 1px solid #e5e5e5;
   }
 
   .dialog-body {
@@ -51,17 +61,40 @@
 
   .dialog-foot {
     padding: 19px 20px 20px;
-    text-align: right;
     border-top: 1px solid #e5e5e5;
     text-align: center;
+
     &:empty {
       display: none;
     }
+
     a {
       margin: 0 5px;
     }
+
     span {
       padding: 6px 20px;
+    }
+  }
+}
+
+.ue-dialog-tabs {
+  .dialog-head {
+    padding-bottom: 0;
+    line-height: 19px;
+
+    .nav-tabs {
+      margin-bottom: 0;
+      border-bottom: none;
+    }
+
+    .nav {
+      > li {
+        > a {
+          padding-top: 5px;
+          padding-bottom: 5px;
+        }
+      }
     }
   }
 }

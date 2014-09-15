@@ -3,12 +3,14 @@
   left: 0;
   top: 0;
   min-width: 320px;
-  outline: none;
   background: #fff;
   border-top: 5px solid #333;
   border-radius: 3px;
   box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
   -webkit-filter: grayscale(0.8) blur(2px);
+}
+.ue-dialog:focus {
+  outline: none;
 }
 .ue-dialog.focused {
   -webkit-filter: none;
@@ -34,11 +36,15 @@
 .ue-dialog .dialog-head {
   cursor: default;
   min-height: 16.428571429px;
+  border-bottom: 1px solid #e5e5e5;
+}
+.ue-dialog .dialog-title {
+  cursor: default;
+  margin: 0;
   padding: 15px 46px 15px 15px;
   font-size: 18px;
   font-weight: 500;
   line-height: 21px;
-  border-bottom: 1px solid #e5e5e5;
 }
 .ue-dialog .dialog-body {
   position: relative;
@@ -46,7 +52,6 @@
 }
 .ue-dialog .dialog-foot {
   padding: 19px 20px 20px;
-  text-align: right;
   border-top: 1px solid #e5e5e5;
   text-align: center;
 }
@@ -58,4 +63,16 @@
 }
 .ue-dialog .dialog-foot span {
   padding: 6px 20px;
+}
+.ue-dialog-tabs .dialog-head {
+  padding-bottom: 0;
+  line-height: 19px;
+}
+.ue-dialog-tabs .dialog-head .nav-tabs {
+  margin-bottom: 0;
+  border-bottom: none;
+}
+.ue-dialog-tabs .dialog-head .nav > li > a {
+  padding-top: 5px;
+  padding-bottom: 5px;
 }
