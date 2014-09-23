@@ -48,11 +48,6 @@ define(function(require, exports, module) {
 
       if (baseElement) {
         self.baseElement = $(baseElement);
-        self.setPosition = setPosition;
-      } else {
-        if (self.option('css/position') === 'absolute') {
-          self.setPosition = setPosition;
-        }
       }
 
       // IE6
@@ -69,6 +64,39 @@ define(function(require, exports, module) {
       Mask.superclass.setup.apply(self);
     },
 
+    /**
+     * 更新遮罩浮层位置
+     *
+     * @method setPosition
+     */
+    setPosition: function() {
+      var self = this,
+        baseElement = self.baseElement;
+
+      function resize() {
+        self.element
+          .css({
+            width: 0,
+            height: 0
+          })
+          .css({
+            width: baseElement.outerWidth(),
+            height: baseElement.outerHeight()
+          });
+      }
+
+      // no baseElement, or baseElement is window
+      if (!baseElement/* || !baseElement[0].nodeType*/) {
+        baseElement = $(self.document);
+      }
+
+      resize();
+
+      $(self.viewport).on('resize' + self.delegateNS, resize);
+
+      Mask.superclass.setPosition.apply(self);
+    },
+
     destroy: function() {
       $(this.viewport).off('resize' + this.delegateNS);
 
@@ -76,39 +104,6 @@ define(function(require, exports, module) {
     }
 
   });
-
-  /* jshint validthis:true */
-  /**
-   * 更新遮罩浮层位置
-   *
-   * @method setPosition
-   */
-  function setPosition() {
-    var self = this;
-
-    if (!self.baseElement) {
-      self.baseElement = $(self.document);
-    }
-
-    self.element
-      .css({
-        width: 0,
-        height: 0
-      })
-      .css({
-        width: self.baseElement.outerWidth(),
-        height: self.baseElement.outerHeight()
-      });
-
-    if (self.option('css/position') === 'absolute' && !self.resizeBinded) {
-      $(self.viewport).on('resize' + self.delegateNS, function() {
-        self.setPosition();
-      });
-      self.resizeBinded = true;
-    }
-
-    Mask.superclass.setPosition.apply(self);
-  }
 
   module.exports = Mask;
 

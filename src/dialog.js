@@ -164,7 +164,7 @@ define(function(require, exports, module) {
       this.mask && this.mask.setPosition();
 
       if (!this.option('baseElement')) {
-        this.option('baseElement', this.viewport);
+        this.option('baseElement', this.document);
       }
 
       Dialog.superclass.setPosition.apply(this);
@@ -232,11 +232,15 @@ define(function(require, exports, module) {
           autoShow: self.option('effect') === 'none',
           baseElement: self.option('baseElement'),
           container: self.element,
+          css: {
+            position: self.option('css/position')
+          },
           delegates: {
             'keydown': function(e) {
               (e.keyCode === 27) && self.close();
             },
             'click': function(e) {
+              // shaking
               self.stop()
                 .animate({
                   left: '-=10'
