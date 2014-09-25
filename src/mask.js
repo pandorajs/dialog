@@ -85,14 +85,15 @@ define(function(require, exports, module) {
           });
       }
 
-      // no baseElement, or baseElement is window
-      if (!baseElement/* || !baseElement[0].nodeType*/) {
-        baseElement = $(self.document);
+      if (self.option('css/position') !== 'fixed') {
+        if (!baseElement) {
+          baseElement = $(self.document);
+        }
+
+        resize();
+
+        $(self.viewport).on('resize' + self.delegateNS, resize);
       }
-
-      resize();
-
-      $(self.viewport).on('resize' + self.delegateNS, resize);
 
       Mask.superclass.setPosition.apply(self);
     },

@@ -91,6 +91,7 @@ define(function(require, exports, module) {
        * @type {Boolean}
        */
       mask: false,
+      maskFixed: false,
 
       /**
        * 位置偏移，单位为像素
@@ -233,7 +234,7 @@ define(function(require, exports, module) {
           baseElement: self.option('baseElement'),
           container: self.element,
           css: {
-            position: self.option('css/position')
+            position: self.option('maskFixed') ? 'fixed' : self.option('css/position')
           },
           delegates: {
             'keydown': function(e) {
