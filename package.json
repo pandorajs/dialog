@@ -31,7 +31,7 @@
   "dependencies": {},
   "devDependencies": {
     "grunt": "*",
-    "grunt-cmd-transport": "*",
+    "grunt-cmd-transport": "crossjs/grunt-cmd-transport",
     "grunt-cmd-concat": "*",
     "grunt-contrib-clean": "*",
     "grunt-contrib-copy": "*",
