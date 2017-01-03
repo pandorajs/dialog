@@ -1,3 +1,4 @@
+
 # pandora-dialog [![spm version](http://127.0.0.1:3000/badge/pandora-dialog)](http://127.0.0.1:3000/package/pandora-dialog)
 
 ---
@@ -16,3 +17,4 @@ $ spm install pandora-dialog --save
 var pandoraDialog = require('pandora-dialog');
 // use pandoraDialog
 ```
+
