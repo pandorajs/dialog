@@ -1,20 +1,31 @@
+# Dialog
 
-# pandora-dialog [![spm version](http://127.0.0.1:3000/badge/pandora-dialog)](http://127.0.0.1:3000/package/pandora-dialog)
+[![Build Status](https://api.travis-ci.org/pandorajs/dialog.png?branch=master)](http://travis-ci.org/pandorajs/dialog)
+[![Coverage Status](https://coveralls.io/repos/pandorajs/dialog/badge.png?branch=master)](https://coveralls.io/r/pandorajs/dialog?branch=master)
 
----
-
-
-
-## Install
-
-```
-$ spm install pandora-dialog --save
-```
 
 ## Usage
 
-```js
-var pandoraDialog = require('pandora-dialog');
-// use pandoraDialog
+```bash
+npm install pandora-dialog -S
 ```
 
+```js
+var Dialog = require('pandora-dialog');
+
+new Dialog({
+  content : '我是一个弹窗，请点右上角关闭!'
+});
+
+new Dialog.Tips({
+  content : '我是一个tips，我会自动消失!'
+});
+
+new Dialog.Confirm({
+  content : '我是一个Confirm，请确认!'
+});
+
+new Dialog.Alert({
+  content : '我是一个Alert，请确认!'
+});
+```
